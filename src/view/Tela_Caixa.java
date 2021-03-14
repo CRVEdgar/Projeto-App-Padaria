@@ -208,7 +208,9 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
         dtmprodutos.addRow(valores);
         //total = 0;
         total = total + soma;
-        txtValorTotal.setText(valueOf(total));  
+        txtValorTotal.setText(valueOf(total));
+        txtQuantidade.setText("");
+        txtPreco.setText("");
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void cmboxProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboxProdutoActionPerformed

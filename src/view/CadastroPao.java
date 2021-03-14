@@ -5,6 +5,13 @@
  */
 package view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.entities.Produto;
+import model.service.ProdutoService;
+
 /**
  *
  * @author jhona
@@ -16,6 +23,17 @@ public class CadastroPao extends javax.swing.JInternalFrame {
      */
     public CadastroPao() {
         initComponents();
+        inicializaComboBox();
+    }
+    
+    private void inicializaComboBox(){
+        ProdutoService servico = new ProdutoService();
+        
+        for( Produto p: servico.listarTodos()){
+            ///System.out.println("QUANTIDADE: " +p.getQuantidade());
+            //System.out.println("NOME:" +p);
+            boxProdutos.addItem(p);
+        }
     }
 
     /**
@@ -41,13 +59,9 @@ public class CadastroPao extends javax.swing.JInternalFrame {
         produto = new javax.swing.JLabel();
         boxProdutos = new javax.swing.JComboBox<>();
         quantidade = new javax.swing.JLabel();
-        cmpQtd = new javax.swing.JTextField();
-        preco = new javax.swing.JLabel();
-        txf_Preco = new javax.swing.JTextField();
+        txtQuantidade = new javax.swing.JTextField();
         lote = new javax.swing.JLabel();
-        cmpLote = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        validade = new javax.swing.JFormattedTextField();
+        txtLote = new javax.swing.JTextField();
         botaoAddEstq = new javax.swing.JToggleButton();
 
         setClosable(true);
@@ -100,7 +114,7 @@ public class CadastroPao extends javax.swing.JInternalFrame {
                                 .addComponent(opcAtendente)
                                 .addGap(30, 30, 30)
                                 .addComponent(opcChefeEstq)
-                                .addContainerGap(39, Short.MAX_VALUE))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(PainelCadFunLayout.createSequentialGroup()
                         .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -134,41 +148,26 @@ public class CadastroPao extends javax.swing.JInternalFrame {
 
         produto.setText("Produto");
 
-        boxProdutos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pão Francês", "Pão Doce", "Rosquinha", "Bolo", "Salgados" }));
-
         quantidade.setText("Quantidade");
 
-        cmpQtd.setBackground(new java.awt.Color(255, 255, 204));
-
-        preco.setText("Preço R$");
-
-        txf_Preco.setBackground(new java.awt.Color(255, 255, 204));
-        txf_Preco.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txf_PrecoActionPerformed(evt);
-            }
-        });
+        txtQuantidade.setBackground(new java.awt.Color(255, 255, 204));
 
         lote.setText("Lote");
 
-        cmpLote.setBackground(new java.awt.Color(255, 255, 204));
-        cmpLote.addActionListener(new java.awt.event.ActionListener() {
+        txtLote.setBackground(new java.awt.Color(255, 255, 204));
+        txtLote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmpLoteActionPerformed(evt);
+                txtLoteActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("Validade");
-
-        validade.setBackground(new java.awt.Color(255, 255, 204));
-        try {
-            validade.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
         botaoAddEstq.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-movimento-de-estoque-20.png"))); // NOI18N
         botaoAddEstq.setText("Adicionar ao Estoque");
+        botaoAddEstq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoAddEstqActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PainelCadProdLayout = new javax.swing.GroupLayout(PainelCadProd);
         PainelCadProd.setLayout(PainelCadProdLayout);
@@ -176,62 +175,41 @@ public class CadastroPao extends javax.swing.JInternalFrame {
             PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PainelCadProdLayout.createSequentialGroup()
                 .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PainelCadProdLayout.createSequentialGroup()
-                        .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(boxProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PainelCadProdLayout.createSequentialGroup()
-                        .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelCadProdLayout.createSequentialGroup()
-                                .addComponent(preco, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(PainelCadProdLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(14, 14, 14)))
-                        .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txf_Preco)
-                            .addComponent(validade, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))))
+                    .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lote, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelCadProdLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botaoAddEstq)
-                        .addGap(24, 24, 24))
-                    .addGroup(PainelCadProdLayout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lote, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmpQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmpLote, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(PainelCadProdLayout.createSequentialGroup()
+                .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(boxProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelCadProdLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(botaoAddEstq)
+                .addGap(18, 18, 18))
         );
         PainelCadProdLayout.setVerticalGroup(
             PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PainelCadProdLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(11, 11, 11)
                 .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(produto)
-                    .addComponent(boxProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(boxProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(quantidade)
-                    .addComponent(cmpQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(preco, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txf_Preco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lote)
-                    .addComponent(cmpLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelCadProdLayout.createSequentialGroup()
-                        .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(validade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(23, 23, 23))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelCadProdLayout.createSequentialGroup()
-                        .addComponent(botaoAddEstq)
-                        .addContainerGap())))
+                    .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(botaoAddEstq)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -255,41 +233,65 @@ public class CadastroPao extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txf_PrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txf_PrecoActionPerformed
+    private void txtLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txf_PrecoActionPerformed
-
-    private void cmpLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmpLoteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmpLoteActionPerformed
+    }//GEN-LAST:event_txtLoteActionPerformed
 
     private void cmpNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmpNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmpNomeActionPerformed
+
+    private void botaoAddEstqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAddEstqActionPerformed
+        SimpleDateFormat formatacao = new SimpleDateFormat("dd/MM/yyyy");
+        ProdutoService servico = new ProdutoService();
+        
+        //Produto produto = new Produto();
+        Produto produtoSelecionado = (Produto) boxProdutos.getSelectedItem();
+        
+        produtoSelecionado.QuantidadeAdd(Integer.parseInt(txtQuantidade.getText()));
+        produtoSelecionado.setLote(String.valueOf(txtLote.getText()));
+        
+        servico.AtualizarEstoque(produtoSelecionado);
+        
+       /* produto.QuantidadeAdd(txtQuantidade.getText() == null ? produtoSelecionado.getQuantidade() : Integer.parseInt(txtQuantidade.getText()));
+        produto.setPreco(Double.parseDouble(txtPreco.getText()));
+        produto.setLote(String.valueOf(txtLote.getText()));
+        try {
+            produto.setValidade(formatacao.parse(txtValidade.getText()));
+        } catch (ParseException ex) {
+            Logger.getLogger(CadastroPao.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERRO 1");
+        }*/
+        
+        System.out.println("Nome: " + produtoSelecionado.getNome());
+        System.out.println("Quantidade: " + produtoSelecionado.getQuantidade());
+        System.out.println("Valor: " + produtoSelecionado.getPreco());
+        System.out.println("LOTE: " +produtoSelecionado.getLote());
+        System.out.println("Validade: " + formatacao.format(produtoSelecionado.getValidade()));
+
+        
+       
+    }//GEN-LAST:event_botaoAddEstqActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PainelCadFun;
     private javax.swing.JPanel PainelCadProd;
     private javax.swing.JToggleButton botaoAddEstq;
-    private javax.swing.JComboBox<String> boxProdutos;
+    private javax.swing.JComboBox<Object> boxProdutos;
     private javax.swing.JLabel cargo;
     private javax.swing.JTextField cmpCod;
-    private javax.swing.JTextField cmpLote;
     private javax.swing.JTextField cmpNome;
-    private javax.swing.JTextField cmpQtd;
     private javax.swing.JLabel codigo;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lote;
     private javax.swing.JLabel nome;
     private javax.swing.JRadioButton opcAtendente;
     private javax.swing.JRadioButton opcChefeEstq;
     private javax.swing.JRadioButton opcGerente;
     private javax.swing.ButtonGroup opcaoCargo;
-    private javax.swing.JLabel preco;
     private javax.swing.JLabel produto;
     private javax.swing.JLabel quantidade;
-    private javax.swing.JTextField txf_Preco;
-    private javax.swing.JFormattedTextField validade;
+    private javax.swing.JTextField txtLote;
+    private javax.swing.JTextField txtQuantidade;
     // End of variables declaration//GEN-END:variables
 }

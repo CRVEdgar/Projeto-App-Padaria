@@ -5,12 +5,15 @@
  */
 package view;
 
+//import javax.swing.JDesktopPane;
+
 /**
  *
  * @author jhona
  */
 public class TelaInicial2 extends javax.swing.JFrame {
 
+    private JanelasCrud crud;
     /**
      * Creates new form TelaInicial2
      */
@@ -52,7 +55,6 @@ public class TelaInicial2 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bem Vindo");
-        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -139,7 +141,7 @@ public class TelaInicial2 extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(btnCaixa)
                 .addGap(54, 54, 54))
         );
@@ -318,11 +320,12 @@ public class TelaInicial2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMercActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMercActionPerformed
-        CadastroPao p = new CadastroPao();
-               
-        //this.jPanel1.add(p);
-        jDesktopPane_da_TelaPrincipal.add(p);
-        p.setVisible(true);
+
+        JanelasCrud crud = new JanelasCrud();
+ 
+        jDesktopPane_da_TelaPrincipal.add(crud);
+       
+        crud.setVisible(true);
 
     }//GEN-LAST:event_btnMercActionPerformed
 
@@ -404,7 +407,7 @@ public class TelaInicial2 extends javax.swing.JFrame {
     private javax.swing.JButton btnMerc;
     private javax.swing.JMenuItem itemInforSistema;
     private javax.swing.JMenuItem itemQuemSomos;
-    private javax.swing.JDesktopPane jDesktopPane_da_TelaPrincipal;
+    public static javax.swing.JDesktopPane jDesktopPane_da_TelaPrincipal;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
