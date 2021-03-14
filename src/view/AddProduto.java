@@ -7,6 +7,7 @@ package view;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entities.Produto;
@@ -160,6 +161,7 @@ public class AddProduto extends javax.swing.JInternalFrame {
     private void btnAddEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEstoqueActionPerformed
         Produto obj = new Produto();
         SimpleDateFormat formatacao = new SimpleDateFormat("dd/MM/yyyy");
+        Locale.setDefault(Locale.US);
         
         obj.setNome(txtNome.getText());
         obj.QuantidadeAdd(Integer.parseInt(txtQuantidade.getText()));

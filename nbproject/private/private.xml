@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/Users/Edgar/Documents/FACULDADE/5º%20PERÍODO/LP%203/Atividades/Atv1%20-%20Padaria%20V3/Atv1%20-%20Padaria%20v2/src/view/JanelasCrud.java</file>
+            <file>file:/D:/Users/Edgar/Documents/FACULDADE/5º%20PERÍODO/LP%203/Atividades/Atv1%20-%20Padaria%20V3/Atv1%20-%20Padaria%20v2/src/view/CadastroPao.java</file>
+            <file>file:/D:/Users/Edgar/Documents/FACULDADE/5º%20PERÍODO/LP%203/Atividades/Atv1%20-%20Padaria%20V3/Atv1%20-%20Padaria%20v2/src/view/AddProduto.java</file>
+            <file>file:/D:/Users/Edgar/Documents/FACULDADE/5º%20PERÍODO/LP%203/Atividades/Atv1%20-%20Padaria%20V3/Atv1%20-%20Padaria%20v2/src/model/dao/implement/ProdutoDaoJDBC.java</file>
+            <file>file:/D:/Users/Edgar/Documents/FACULDADE/5º%20PERÍODO/LP%203/Atividades/Atv1%20-%20Padaria%20V3/Atv1%20-%20Padaria%20v2/src/model/service/ProdutoService.java</file>
+            <file>file:/D:/Users/Edgar/Documents/FACULDADE/5º%20PERÍODO/LP%203/Atividades/Atv1%20-%20Padaria%20V3/Atv1%20-%20Padaria%20v2/src/view/TelaAtualizacao.java</file>
+            <file>file:/D:/Users/Edgar/Documents/FACULDADE/5º%20PERÍODO/LP%203/Atividades/Atv1%20-%20Padaria%20V3/Atv1%20-%20Padaria%20v2/src/view/TelaInicial2.java</file>
+        </group>
     </open-files>
 </project-private>

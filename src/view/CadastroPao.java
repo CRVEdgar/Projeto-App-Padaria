@@ -7,6 +7,7 @@ package view;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entities.Produto;
@@ -178,9 +179,9 @@ public class CadastroPao extends javax.swing.JInternalFrame {
                     .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lote, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtLote, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                    .addComponent(txtQuantidade))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(PainelCadProdLayout.createSequentialGroup()
                 .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -207,7 +208,7 @@ public class CadastroPao extends javax.swing.JInternalFrame {
                 .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lote)
                     .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(botaoAddEstq)
                 .addContainerGap())
         );
@@ -244,6 +245,7 @@ public class CadastroPao extends javax.swing.JInternalFrame {
     private void botaoAddEstqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAddEstqActionPerformed
         SimpleDateFormat formatacao = new SimpleDateFormat("dd/MM/yyyy");
         ProdutoService servico = new ProdutoService();
+        Locale.setDefault(Locale.US);
         
         //Produto produto = new Produto();
         Produto produtoSelecionado = (Produto) boxProdutos.getSelectedItem();

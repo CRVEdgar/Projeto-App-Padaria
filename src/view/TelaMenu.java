@@ -5,17 +5,38 @@
  */
 package view;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import javax.swing.table.DefaultTableModel;
+import model.entities.Produto;
+import model.service.ProdutoService;
+
 /**
  *
  * @author Paula
  */
 public class TelaMenu extends javax.swing.JInternalFrame {
 
+    SimpleDateFormat formatacao = new SimpleDateFormat("dd/MM/yyyy");
+    
     /**
      * Creates new form TelaMenu
      */
     public TelaMenu() {
         initComponents();
+        insereTabela();
+    }
+    
+    public void insereTabela(){
+        ProdutoService servico = new ProdutoService();
+        DefaultTableModel dtmprodutos = (DefaultTableModel) tabelaEstoque.getModel();
+        
+        for(Produto p: servico.listarTodos()){
+            
+            Object[] produtos = {p.getCodigo(), p.getNome(), p.getQuantidade(), p.getPreco(), p.getLote(), formatacao.format(p.getValidade())};
+
+            dtmprodutos.addRow(produtos);
+        }
     }
 
     /**
@@ -29,7 +50,7 @@ public class TelaMenu extends javax.swing.JInternalFrame {
 
         painelMenu = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaEstoque = new javax.swing.JTable();
         botaoAtuEstq = new javax.swing.JToggleButton();
 
         setClosable(true);
@@ -38,54 +59,48 @@ public class TelaMenu extends javax.swing.JInternalFrame {
         painelMenu.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Produtos em Estoque", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
         painelMenu.setName(""); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaEstoque.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", null, null, null},
-                {"2", null, null, null},
-                {"3", null, null, null}
+
             },
             new String [] {
-                "Código", "Produto", "Preço de Venda", "Em estoque"
+                "Código", "Nome", "Quantidade", "Preço", "Lote", "Validade"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setColumnSelectionAllowed(true);
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        tabelaEstoque.setColumnSelectionAllowed(true);
+        tabelaEstoque.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tabelaEstoque.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tabelaEstoque);
+        tabelaEstoque.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tabelaEstoque.getColumnModel().getColumnCount() > 0) {
+            tabelaEstoque.getColumnModel().getColumn(0).setResizable(false);
+            tabelaEstoque.getColumnModel().getColumn(0).setPreferredWidth(1);
+            tabelaEstoque.getColumnModel().getColumn(2).setResizable(false);
+            tabelaEstoque.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout painelMenuLayout = new javax.swing.GroupLayout(painelMenu);
         painelMenu.setLayout(painelMenuLayout);
         painelMenuLayout.setHorizontalGroup(
             painelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+            .addGroup(painelMenuLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                .addContainerGap())
         );
         painelMenuLayout.setVerticalGroup(
             painelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelMenuLayout.createSequentialGroup()
-                .addGap(0, 14, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         botaoAtuEstq.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-movimento-de-estoque-20.png"))); // NOI18N
@@ -100,34 +115,40 @@ public class TelaMenu extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(botaoAtuEstq)
-                .addGap(19, 19, 19))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(painelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botaoAtuEstq)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(painelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(painelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(botaoAtuEstq)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoAtuEstqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAtuEstqActionPerformed
-    
+        TelaAtualizacao atl = new TelaAtualizacao();
+        
+        TelaInicial2.jDesktopPane_da_TelaPrincipal.add(atl);
+        atl.setVisible(true);
+        dispose();
     }//GEN-LAST:event_botaoAtuEstqActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton botaoAtuEstq;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel painelMenu;
+    private javax.swing.JTable tabelaEstoque;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,8 +6,12 @@
 package view;
 
 import static java.lang.String.valueOf;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.entities.Produto;
+import model.service.ProdutoService;
 
 /**
  *
@@ -15,11 +19,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Tela_Caixa extends javax.swing.JInternalFrame {
     private static double total = 0;
+    SimpleDateFormat formatacao = new SimpleDateFormat("dd/MM/yyyy");
     /**
      * Creates new form Tela_Caixa
      */
     public Tela_Caixa() {
         initComponents();
+        inicializaComboBox();
+    }
+    
+    private void inicializaComboBox(){
+        ProdutoService servico = new ProdutoService();
+        
+        for( Produto p: servico.listarTodos()){
+
+            cmboxProduto.addItem(p);
+        }
         
     }
 
@@ -45,6 +60,7 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
         txtQuantidade = new javax.swing.JTextField();
         txtPreco = new javax.swing.JFormattedTextField();
         btnInserir = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txtValorTotal = new javax.swing.JFormattedTextField();
 
@@ -101,7 +117,6 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
 
         preco.setText("PREÇO");
 
-        cmboxProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pão Francês", "Pão Doce", "Rosquinha", "Bolo", "Salgados" }));
         cmboxProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmboxProdutoActionPerformed(evt);
@@ -117,6 +132,9 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        jLabel2.setText("Selecione o produto e a quantidade desejada pelo cliente");
+
         javax.swing.GroupLayout PainelCaixaLayout = new javax.swing.GroupLayout(PainelCaixa);
         PainelCaixa.setLayout(PainelCaixaLayout);
         PainelCaixaLayout.setHorizontalGroup(
@@ -124,26 +142,35 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
             .addGroup(PainelCaixaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PainelCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnInserir)
                     .addGroup(PainelCaixaLayout.createSequentialGroup()
                         .addGroup(PainelCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnInserir)
                             .addGroup(PainelCaixaLayout.createSequentialGroup()
                                 .addComponent(cmboxProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(171, 171, 171)
                                 .addGroup(PainelCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(141, 141, 141)
+                                    .addGroup(PainelCaixaLayout.createSequentialGroup()
+                                        .addGap(141, 141, 141)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(PainelCaixaLayout.createSequentialGroup()
+                                        .addGap(135, 135, 135)
+                                        .addGroup(PainelCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addContainerGap(266, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelCaixaLayout.createSequentialGroup()
+                        .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(PainelCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(preco, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(136, Short.MAX_VALUE))
+                            .addComponent(preco, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(159, 159, 159))))
         );
         PainelCaixaLayout.setVerticalGroup(
             PainelCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PainelCaixaLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PainelCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(quantidade)
@@ -190,7 +217,7 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtValorTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addComponent(txtValorTotal)
                         .addGap(7, 7, 7)))
                 .addContainerGap())
         );
@@ -200,22 +227,79 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
         
-        double soma = Double.parseDouble(txtQuantidade.getText()) * Double.parseDouble(txtPreco.getText());
+        Produto produtoSelecionado = (Produto) cmboxProduto.getSelectedItem();
         
-        DefaultTableModel dtmprodutos = (DefaultTableModel) tabelaNota.getModel();
-        Object[] valores = {cmboxProduto.getSelectedItem().toString(), txtPreco.getText(), txtQuantidade.getText(), soma};
+        try{
+            
+        System.out.println("QTD: " +txtQuantidade.getText());
+        System.out.println("PRECO: " +  txtPreco.getText());
         
-        dtmprodutos.addRow(valores);
-        //total = 0;
-        total = total + soma;
-        txtValorTotal.setText(valueOf(total));
-        txtQuantidade.setText("");
-        txtPreco.setText("");
+            if(txtQuantidade.getText() == null || txtQuantidade.getText().trim().equals("") && txtPreco.getText() == null || txtPreco.getText().trim().equals("")){
+                JOptionPane.showMessageDialog(null, "Não há produto Selecionado", "Selecione um Produto", JOptionPane.INFORMATION_MESSAGE);
+                //System.out.println("ERRO 1");
+            }else{
+                
+                if(produtoSelecionado.getQuantidade() > Integer.parseInt(txtQuantidade.getText()) ){
+                    
+                    produtoSelecionado.QuantidadeRemove(Integer.parseInt(txtQuantidade.getText()));                   
+                    
+                    ProdutoService servico = new ProdutoService();
+                    servico.AtualizarEstoqueVenda(produtoSelecionado);
+                    
+                    double soma = Double.parseDouble(txtQuantidade.getText()) * Double.parseDouble(txtPreco.getText());
+                    DefaultTableModel dtmprodutos = (DefaultTableModel) tabelaNota.getModel();
+                    Object[] valores = {cmboxProduto.getSelectedItem().toString(), txtPreco.getText(), txtQuantidade.getText(), soma};
+
+                    dtmprodutos.addRow(valores);
+                    
+                    total = total + soma;
+                    txtValorTotal.setText(valueOf(total));
+                    txtQuantidade.setText("");
+                    txtPreco.setText("");
+                    
+                    //System.out.println("CODIGO: " +produtoSelecionado.getCodigo());
+                    //System.out.println("Nome: " + produtoSelecionado.getNome());
+                    //System.out.println("Quantidade: " + produtoSelecionado.getQuantidade());
+                    //System.out.println("Valor: " + produtoSelecionado.getPreco());
+                    //System.out.println("LOTE: " +produtoSelecionado.getLote());
+                    //System.out.println("Validade: " + formatacao.format(produtoSelecionado.getValidade()));
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "Quantidade solicitada superior à quantidade em estoque", "Quantidade Insuficiente", JOptionPane.ERROR_MESSAGE);
+                    txtQuantidade.setText("");
+                }
+            }
+   
+        }catch(NumberFormatException ex){
+            System.out.println("EXECAO CAPTURADA:" +ex.getMessage());
+            if(txtQuantidade.getText() == null || txtQuantidade.getText().trim().equals("")){
+                JOptionPane.showMessageDialog(null, "Informe a quantidade que deseja adicionar à venda", "Quantidade Não Informada", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println("ERRO - quantidade nao informada");
+            }else{
+                System.out.println("ERRO - quantidade informada nao é o do tipo Inteiro ");
+                JOptionPane.showMessageDialog(null, "Informe a Quantidade corretamente", "Entrada para quantidade errada", JOptionPane.INFORMATION_MESSAGE);
+                txtQuantidade.setText("");
+            }
+            /*if(txtQuantidade.getText() == "" && txtPreco.getText() == "" ){
+                JOptionPane.showMessageDialog(null, "Não há produto Selecionado", "Selecione um Produto", JOptionPane.INFORMATION_MESSAGE);
+            }
+            if(txtQuantidade.getText() == ""){
+                JOptionPane.showMessageDialog(null, "Informe a quantidade que deseja adicionar à venda", "Quantidade Não Informada", JOptionPane.INFORMATION_MESSAGE);
+            }
+            */
+        }
+        
+        
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void cmboxProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboxProdutoActionPerformed
-        String valores[] = {"0.50", "0.75", "1.00", "2.50", "3.00"}; 
-        txtPreco.setText(valores[cmboxProduto.getSelectedIndex()]);           
+        Produto produtoSelecionado = (Produto) cmboxProduto.getSelectedItem();
+        //ProdutoService service = new ProdutoService();
+        
+        txtPreco.setText(String.valueOf(produtoSelecionado.getPreco()));
+        
+       // String valores[] = {"0.50", "0.75", "1.00", "2.50", "3.00"}; 
+        //txtPreco.setText(valores[cmboxProduto.getSelectedIndex()]);           
     }//GEN-LAST:event_cmboxProdutoActionPerformed
 
 
@@ -223,8 +307,9 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PainelCaixa;
     private javax.swing.JPanel PainelNotaFiscal;
     private javax.swing.JButton btnInserir;
-    private javax.swing.JComboBox<String> cmboxProduto;
+    private javax.swing.JComboBox<Object> cmboxProduto;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTable jTable1;

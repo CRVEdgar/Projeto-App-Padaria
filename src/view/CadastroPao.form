@@ -190,11 +190,11 @@
                       <Component id="lote" alignment="0" min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txtLote" min="-2" pref="52" max="-2" attributes="0"/>
-                      <Component id="txtQuantidade" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="txtLote" pref="72" max="32767" attributes="0"/>
+                      <Component id="txtQuantidade" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="289" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="102" attributes="0">
                   <Component id="produto" min="-2" pref="52" max="-2" attributes="0"/>
@@ -227,7 +227,7 @@
                       <Component id="lote" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtLote" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="7" max="32767" attributes="0"/>
+                  <EmptySpace pref="11" max="32767" attributes="0"/>
                   <Component id="botaoAddEstq" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

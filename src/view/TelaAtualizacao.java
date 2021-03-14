@@ -7,6 +7,7 @@ package view;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entities.Produto;
@@ -18,6 +19,7 @@ import model.service.ProdutoService;
  */
 public class TelaAtualizacao extends javax.swing.JInternalFrame {
 
+    
     /**
      * Creates new form TelaAtualizacao
      */
@@ -228,6 +230,7 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
         SimpleDateFormat formatacao = new SimpleDateFormat("dd/MM/yyyy");
         ProdutoService servico = new ProdutoService();
+        Locale.setDefault(Locale.US);
         
         Produto produtoSelecionado = (Produto) cmbxProdutos.getSelectedItem();
         
