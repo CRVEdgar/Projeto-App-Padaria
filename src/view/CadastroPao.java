@@ -66,6 +66,7 @@ public class CadastroPao extends javax.swing.JInternalFrame {
         lote = new javax.swing.JLabel();
         txtLote = new javax.swing.JTextField();
         botaoAddEstq = new javax.swing.JToggleButton();
+        lblErroQuantidade = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -172,27 +173,32 @@ public class CadastroPao extends javax.swing.JInternalFrame {
             }
         });
 
+        lblErroQuantidade.setForeground(new java.awt.Color(255, 0, 51));
+
         javax.swing.GroupLayout PainelCadProdLayout = new javax.swing.GroupLayout(PainelCadProd);
         PainelCadProd.setLayout(PainelCadProdLayout);
         PainelCadProdLayout.setHorizontalGroup(
             PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PainelCadProdLayout.createSequentialGroup()
-                .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lote, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtLote, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
-                    .addComponent(txtQuantidade))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(PainelCadProdLayout.createSequentialGroup()
                 .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(boxProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelCadProdLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(botaoAddEstq)
+                .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PainelCadProdLayout.createSequentialGroup()
+                        .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lote, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtLote, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                            .addComponent(txtQuantidade))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblErroQuantidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PainelCadProdLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botaoAddEstq)))
                 .addGap(18, 18, 18))
         );
         PainelCadProdLayout.setVerticalGroup(
@@ -205,12 +211,13 @@ public class CadastroPao extends javax.swing.JInternalFrame {
                 .addGap(23, 23, 23)
                 .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(quantidade)
-                    .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblErroQuantidade))
                 .addGap(18, 18, 18)
                 .addGroup(PainelCadProdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lote)
                     .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(botaoAddEstq)
                 .addContainerGap())
         );
@@ -248,20 +255,36 @@ public class CadastroPao extends javax.swing.JInternalFrame {
         SimpleDateFormat formatacao = new SimpleDateFormat("dd/MM/yyyy");
         ProdutoService servico = new ProdutoService();
         Locale.setDefault(Locale.US);
-        
+        Produto produtoSelecionado = (Produto) boxProdutos.getSelectedItem();
+        txtLote.setText(produtoSelecionado.getLote());
 
         try{
-            Produto produtoSelecionado = (Produto) boxProdutos.getSelectedItem();
+            //Produto produtoSelecionado = (Produto) boxProdutos.getSelectedItem();
 
             produtoSelecionado.QuantidadeAdd(Integer.parseInt(txtQuantidade.getText()));
-            produtoSelecionado.setLote(String.valueOf(txtLote.getText()));
+            
+            if(txtLote.getText() == null || txtLote.getText().trim().equals("")){
+               txtLote.setText(produtoSelecionado.getLote());
+            }else{
+                produtoSelecionado.setLote(String.valueOf(txtLote.getText()));
+            }
+            //produtoSelecionado.setLote(String.valueOf(txtLote.getText()));
 
             servico.AtualizarEstoque(produtoSelecionado);
-
+            JOptionPane.showMessageDialog(null, "Novos dados do produto foram adicionados ao Estoque", "Atualizado com Sucesso", JOptionPane.PLAIN_MESSAGE);
+            txtQuantidade.setText(""); 
+            txtLote.setText("");
+            
         }catch(NumberFormatException ex){
-            JOptionPane.showMessageDialog(null, "Informe a QUANTIDADE corretamente", "QUANTIDADE preenchido incorretamente", JOptionPane.INFORMATION_MESSAGE);
-            txtQuantidade.setText("");    
-            System.out.println("ERRO - quantidade nao informada");
+            if(txtQuantidade.getText() == null || txtQuantidade.getText().trim().equals("")){
+                JOptionPane.showMessageDialog(null, "Informe a quantidade que deseja adicionar ao estoque", "Quantidade Não Informada", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println("ERRO - quantidade nao informada");
+                lblErroQuantidade.setText("*Campo de preenchimento obrigatório");
+            }else{
+                JOptionPane.showMessageDialog(null, "Informe a QUANTIDADE corretamente", "QUANTIDADE preenchido incorretamente", JOptionPane.INFORMATION_MESSAGE);
+                txtQuantidade.setText("");    
+                System.out.println("ERRO - quantidade nao informada");
+            }
         }catch(DbException e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao salvar no Banco de Dados", JOptionPane.ERROR_MESSAGE);
         }
@@ -287,6 +310,7 @@ public class CadastroPao extends javax.swing.JInternalFrame {
     private javax.swing.JTextField cmpCod;
     private javax.swing.JTextField cmpNome;
     private javax.swing.JLabel codigo;
+    private javax.swing.JLabel lblErroQuantidade;
     private javax.swing.JLabel lote;
     private javax.swing.JLabel nome;
     private javax.swing.JRadioButton opcAtendente;

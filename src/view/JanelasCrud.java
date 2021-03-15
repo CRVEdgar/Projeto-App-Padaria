@@ -33,6 +33,9 @@ public class JanelasCrud extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+
         btnAddProd.setText("Adicionar Produto");
         btnAddProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,7 +58,7 @@ public class JanelasCrud extends javax.swing.JInternalFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 204, 255));
+        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
         jLabel1.setText("Navegue Pelas Opções Abaixo para Manipular o Estoque");
 
         jButton1.setText("Excluir Um Produto");
