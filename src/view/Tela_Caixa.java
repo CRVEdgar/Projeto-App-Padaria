@@ -5,6 +5,7 @@
  */
 package view;
 
+import db.DbException;
 import static java.lang.String.valueOf;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
@@ -236,10 +237,10 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
         
             if(txtQuantidade.getText() == null || txtQuantidade.getText().trim().equals("") && txtPreco.getText() == null || txtPreco.getText().trim().equals("")){
                 JOptionPane.showMessageDialog(null, "Não há produto Selecionado", "Selecione um Produto", JOptionPane.INFORMATION_MESSAGE);
-                //System.out.println("ERRO 1");
+
             }else{
                 
-                if(produtoSelecionado.getQuantidade() > Integer.parseInt(txtQuantidade.getText()) ){
+                if(produtoSelecionado.getQuantidade() >= Integer.parseInt(txtQuantidade.getText()) ){
                     
                     produtoSelecionado.QuantidadeRemove(Integer.parseInt(txtQuantidade.getText()));                   
                     
@@ -280,13 +281,9 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Informe a Quantidade corretamente", "Entrada para quantidade errada", JOptionPane.INFORMATION_MESSAGE);
                 txtQuantidade.setText("");
             }
-            /*if(txtQuantidade.getText() == "" && txtPreco.getText() == "" ){
-                JOptionPane.showMessageDialog(null, "Não há produto Selecionado", "Selecione um Produto", JOptionPane.INFORMATION_MESSAGE);
-            }
-            if(txtQuantidade.getText() == ""){
-                JOptionPane.showMessageDialog(null, "Informe a quantidade que deseja adicionar à venda", "Quantidade Não Informada", JOptionPane.INFORMATION_MESSAGE);
-            }
-            */
+
+        }catch(DbException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao Atualizar o Banco de Dados", JOptionPane.ERROR_MESSAGE);
         }
         
         
@@ -294,12 +291,9 @@ public class Tela_Caixa extends javax.swing.JInternalFrame {
 
     private void cmboxProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboxProdutoActionPerformed
         Produto produtoSelecionado = (Produto) cmboxProduto.getSelectedItem();
-        //ProdutoService service = new ProdutoService();
-        
+
         txtPreco.setText(String.valueOf(produtoSelecionado.getPreco()));
-        
-       // String valores[] = {"0.50", "0.75", "1.00", "2.50", "3.00"}; 
-        //txtPreco.setText(valores[cmboxProduto.getSelectedIndex()]);           
+         
     }//GEN-LAST:event_cmboxProdutoActionPerformed
 
 

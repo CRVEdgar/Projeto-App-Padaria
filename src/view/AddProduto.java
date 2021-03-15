@@ -5,11 +5,13 @@
  */
 package view;
 
+import db.DbException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.entities.Produto;
 import model.service.ProdutoService;
 
@@ -162,19 +164,42 @@ public class AddProduto extends javax.swing.JInternalFrame {
         Produto obj = new Produto();
         SimpleDateFormat formatacao = new SimpleDateFormat("dd/MM/yyyy");
         Locale.setDefault(Locale.US);
-        
-        obj.setNome(txtNome.getText());
-        obj.QuantidadeAdd(Integer.parseInt(txtQuantidade.getText()));
-        obj.setPreco(Double.parseDouble(txtPreco.getText()));
-        obj.setLote(txtLote.getText());
-         try {
+        try{
+            obj.setNome(txtNome.getText());
+            obj.QuantidadeAdd(Integer.parseInt(txtQuantidade.getText()));
+            obj.setPreco(Double.parseDouble(txtPreco.getText()));
+            obj.setLote(txtLote.getText());
             obj.setValidade(formatacao.parse(txtValidade.getText()));
-        } catch (ParseException ex) {
+
+            servico.InserirNoEstoque(obj);
+            
+            JOptionPane.showMessageDialog(null, "Produto adicionado ao estoque", "Salvo com Sucesso", JOptionPane.PLAIN_MESSAGE);
+            txtNome.setText("");
+            txtQuantidade.setText("");
+            txtPreco.setText("");
+            txtLote.setText("");
+            txtValidade.setText("");
+        
+        }catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Prencha a data no formato dd/MM/yyyy", "DATA Incorreta", JOptionPane.INFORMATION_MESSAGE);
             Logger.getLogger(CadastroPao.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("ERRO NA DATA: " + ex.getMessage());
+        }catch(NumberFormatException ex){
+            
+            if(txtQuantidade.getText().toUpperCase().matches("[A-Z]*")){
+                JOptionPane.showMessageDialog(null, "Informe a *QUANTIDADE* corretamente", "QUANTIDADE Incorreta", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println("QUANTIDADE STRING" + ex.getMessage());
+                txtQuantidade.setText("");
+            }
+            if(txtPreco.getText().toUpperCase().matches("[A-Z]*")){
+                JOptionPane.showMessageDialog(null, "Informe o *VALOR* corretamente", "VALOR Incorreto", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println("VALOR STRING" + ex.getMessage());
+                txtPreco.setText("");
+            }
+ 
+        }catch(DbException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao salvar no Banco de Dados", JOptionPane.ERROR_MESSAGE);
         }
-        
-        servico.InserirNoEstoque(obj);
     }//GEN-LAST:event_btnAddEstoqueActionPerformed
 
 

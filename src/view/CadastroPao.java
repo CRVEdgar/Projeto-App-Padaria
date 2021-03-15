@@ -5,11 +5,13 @@
  */
 package view;
 
+import db.DbException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.entities.Produto;
 import model.service.ProdutoService;
 
@@ -247,30 +249,30 @@ public class CadastroPao extends javax.swing.JInternalFrame {
         ProdutoService servico = new ProdutoService();
         Locale.setDefault(Locale.US);
         
-        //Produto produto = new Produto();
-        Produto produtoSelecionado = (Produto) boxProdutos.getSelectedItem();
+
+        try{
+            Produto produtoSelecionado = (Produto) boxProdutos.getSelectedItem();
+
+            produtoSelecionado.QuantidadeAdd(Integer.parseInt(txtQuantidade.getText()));
+            produtoSelecionado.setLote(String.valueOf(txtLote.getText()));
+
+            servico.AtualizarEstoque(produtoSelecionado);
+
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Informe a QUANTIDADE corretamente", "QUANTIDADE preenchido incorretamente", JOptionPane.INFORMATION_MESSAGE);
+            txtQuantidade.setText("");    
+            System.out.println("ERRO - quantidade nao informada");
+        }catch(DbException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao salvar no Banco de Dados", JOptionPane.ERROR_MESSAGE);
+        }
         
-        produtoSelecionado.QuantidadeAdd(Integer.parseInt(txtQuantidade.getText()));
-        produtoSelecionado.setLote(String.valueOf(txtLote.getText()));
-        
-        servico.AtualizarEstoque(produtoSelecionado);
-        
-       /* produto.QuantidadeAdd(txtQuantidade.getText() == null ? produtoSelecionado.getQuantidade() : Integer.parseInt(txtQuantidade.getText()));
-        produto.setPreco(Double.parseDouble(txtPreco.getText()));
-        produto.setLote(String.valueOf(txtLote.getText()));
-        try {
-            produto.setValidade(formatacao.parse(txtValidade.getText()));
-        } catch (ParseException ex) {
-            Logger.getLogger(CadastroPao.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("ERRO 1");
-        }*/
-        
+       /* 
         System.out.println("Nome: " + produtoSelecionado.getNome());
         System.out.println("Quantidade: " + produtoSelecionado.getQuantidade());
         System.out.println("Valor: " + produtoSelecionado.getPreco());
         System.out.println("LOTE: " +produtoSelecionado.getLote());
         System.out.println("Validade: " + formatacao.format(produtoSelecionado.getValidade()));
-
+        */
         
        
     }//GEN-LAST:event_botaoAddEstqActionPerformed

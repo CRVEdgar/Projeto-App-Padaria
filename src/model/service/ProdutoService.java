@@ -35,15 +35,5 @@ public class ProdutoService {
         dao.update(obj);
     }
     
-    /*
-    public void salvarOuAtualizar(Produto obj){
-        
-        if(obj.getCodigo()== null){
-            dao.insert(obj);
-        }else{
-            dao.update(obj);
-        }
-    }
-    */
    
 }

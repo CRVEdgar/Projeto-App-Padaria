@@ -5,11 +5,13 @@
  */
 package view;
 
+import db.DbException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.entities.Produto;
 import model.service.ProdutoService;
 
@@ -55,6 +57,7 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
         txtValorAntigo = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtLoteAntigo = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -65,6 +68,7 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
         txtNovoValor = new javax.swing.JTextField();
         btnAtualizar = new javax.swing.JButton();
         txtFormtValidadeNova = new javax.swing.JFormattedTextField();
+        lblErroNome = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -87,36 +91,38 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Lote Atual");
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel9.setText("Selecione o produto que deseja alterar os dados");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(121, 121, 121)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGap(158, 158, 158))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbxProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtValorAntigo)
-                            .addComponent(txtLoteAntigo, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(txtValorAntigo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbxProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLoteAntigo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbxProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -124,18 +130,18 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtValorAntigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(txtLoteAntigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Atualização"));
 
         jLabel3.setText("Novo Nome");
 
-        jLabel4.setText("Lote");
+        jLabel4.setText("Novo Lote");
 
         jLabel5.setText("Data de Vencimento");
 
@@ -155,6 +161,8 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
 
+        lblErroNome.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -170,7 +178,9 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(txtNovoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblErroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                         .addComponent(btnAtualizar)
                         .addGap(28, 28, 28))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -199,7 +209,8 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(txtNovoValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNovoValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblErroNome))
                         .addContainerGap(26, Short.MAX_VALUE))
                     .addComponent(btnAtualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -236,21 +247,57 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
         
         txtLoteAntigo.setText(produtoSelecionado.getLote());
         txtValorAntigo.setText(String.valueOf(produtoSelecionado.getPreco()));
+        txtNovoValor.setText(String.valueOf(produtoSelecionado.getPreco()));
+        txtFormtValidadeNova.setText(formatacao.format(produtoSelecionado.getValidade()));
         
+        try{
+            produtoSelecionado.QuantidadeAdd(0);
+            
+            if(txtNovoNome.getText() == null || txtNovoNome.getText().trim().equals("")){
+                txtNovoNome.setText(produtoSelecionado.getNome());
+            }else{
+                produtoSelecionado.setNome(txtNovoNome.getText());
+            }
+            
+            if(txtNovoValor.getText() == null || txtNovoValor.getText().trim().equals("")){
+                txtNovoValor.setText(String.valueOf(produtoSelecionado.getPreco()));
+            }else{
+                produtoSelecionado.setPreco(Double.parseDouble(txtNovoValor.getText()));
+            }
+            
+            if(txtNovoLote.getText() == null || txtNovoLote.getText().trim().equals("")){
+               txtNovoLote.setText(produtoSelecionado.getLote());
+            }else{
+                produtoSelecionado.setLote(String.valueOf(txtNovoLote.getText()));
+            }
+            
+            if(txtFormtValidadeNova.getText() == null || txtFormtValidadeNova.getText().trim().equals("")){
+                txtFormtValidadeNova.setText(formatacao.format(produtoSelecionado.getValidade()));
+                System.out.println("DATA NAO INNFO");
+            }else{
+                produtoSelecionado.setValidade(formatacao.parse(txtFormtValidadeNova.getText()));
+            }
         
-        produtoSelecionado.QuantidadeAdd(0);
-        produtoSelecionado.setNome(txtNovoNome.getText());
-        produtoSelecionado.setPreco(Double.parseDouble(txtNovoValor.getText()));
-        produtoSelecionado.setLote(String.valueOf(txtNovoLote.getText()));
-         try {
-            produtoSelecionado.setValidade(formatacao.parse(txtFormtValidadeNova.getText()));
-        } catch (ParseException ex) {
+            servico.AtualizarEstoque(produtoSelecionado);
+            JOptionPane.showMessageDialog(null, "Novos dados do produto foram inseridos no banco", "Atualizado com Sucesso", JOptionPane.PLAIN_MESSAGE);
+            txtNovoValor.setText("");
+            txtFormtValidadeNova.setText("");
+            txtNovoLote.setText("");
+            txtNovoNome.setText("");
+        
+        }catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Prencha a data no formato dd/MM/yyyy", "DATA Incorreta", JOptionPane.INFORMATION_MESSAGE);
             Logger.getLogger(CadastroPao.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("ERRO NA DATA: " + ex.getMessage());
+        }catch(NumberFormatException ex){
+            
+            JOptionPane.showMessageDialog(null, "Informe o VALOR corretamente", "VALOR preenchido incorretamente", JOptionPane.INFORMATION_MESSAGE);
+            txtNovoValor.setText("");    
+            System.out.println("ERRO - Valor != Double");
+        }catch(DbException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao salvar no Banco de Dados", JOptionPane.ERROR_MESSAGE);
         }
-        
-        servico.AtualizarEstoque(produtoSelecionado);
-       /* 
+        /*
         System.out.println("CODIGO: " +produtoSelecionado.getCodigo());
         System.out.println("Nome: " + produtoSelecionado.getNome());
         System.out.println("Quantidade: " + produtoSelecionado.getQuantidade());
@@ -280,8 +327,10 @@ public class TelaAtualizacao extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblErroNome;
     private javax.swing.JFormattedTextField txtFormtValidadeNova;
     private javax.swing.JTextField txtLoteAntigo;
     private javax.swing.JTextField txtNovoLote;
